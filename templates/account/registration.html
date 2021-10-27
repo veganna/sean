@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}YRYRParts | Register{% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock css %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<meta http-equiv="refresh" content="1; URL='{% url 'Pages:home' %} '"/>
+{% else %}
+{% block user_redirect %}
+<div style="width: 100vw; height: 70px;"></div>
+<div class="landing-filters">
+    <img src="{% static 'img/vehicle-parts.jpg' %}">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill-opacity="1" d="M0,224L1440,128L1440,320L0,320Z"></path>
+    </svg>
+    <h1> Register </h1>
+    {% if message %}
+        <h2>{{message}}</h2>
+    {% endif %}
+</div>
+
+    <form class="register_form" method="post">
+        {% csrf_token %}
+        {% for p in registration %}
+        <div class="css_{{p.name}}">
+            {% if p.name == 'password1' %}
+            <p>password: </p>
+            {% elif p.name == 'password2'%}
+            <p>confirm your password: </p>
+            {% else %}
+            <p>{{p.name}}: </p>
+            {% endif %}
+            {{p}}
+        </div>
+            {% endfor %}
+        <div class="css_submit">
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+{% endblock user_redirect %}
+{% endif %}
+{% endblock content %}

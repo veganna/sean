@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Results | {{term}}{% endblock title %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product_list.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"> 
+{% endblock css %}
+
+{% block content %}
+<div class="product-header">
+    <img src="{% static 'img/vehicle-parts.jpg' %}" alt='Resultes for "{{term}}"'>
+    <h1>Results for "{{term}}"</h1>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#F2F2F2" fill-opacity="1" d="M0,224L1440,128L1440,320L0,320Z"></path>
+    </svg>
+</div>
+<div class="section-featured">
+{% if searched %}
+{% include "products.html" with product=searched %}
+{% else %}
+<h1 style="text-align:center; font-size:3rem; color:;">"No Results"</h1>
+{% endif %}
+</div>
+
+{% endblock content%}
+
+{% block script %}
+<script src="{% static 'js/scroll.js' %}"></script>
+{% endblock script %}

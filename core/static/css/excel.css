@@ -1,0 +1,50 @@
+.excel-form {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 1900px) {
+    .excel-form {
+        top: 93%;
+    }
+}
+
+.excel-form form {
+    padding: 5px;
+    border: solid 1px #002244;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, .4);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .4);
+}
+
+.excel-form form .file {
+    color: #002244;
+    background: #69BD28;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.excel-form form .btn-submit-file {
+    width: 100px;
+    height: 37px;
+    background: #002244;
+    color: #69BD28;
+    border: solid 2px #002244;
+    transition: .6s;
+    cursor: pointer;
+    border-radius: 7px;
+    margin-left: 30px;
+}
+
+.excel-form form .btn-submit-file:hover {
+    background: #69BD28;
+    color: #002244;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .4);
+}

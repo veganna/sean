@@ -1,0 +1,30 @@
+.checkout {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap-reverse;
+    gap: 30px;
+    min-height: 600px;
+}
+
+.checkout div {
+    width: 50%;
+    min-width: 360px;
+}
+
+#paypal-button-container {
+    margin: 60px 20px;
+    width: 50%;
+    min-width: 360px;
+
+}
+
+@media screen and (max-width:750px) {
+    #paypal-button-container {
+        width: 400px;
+    }
+    .checkout div {
+        width: 400px;
+    }
+}

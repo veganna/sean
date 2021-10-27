@@ -1,0 +1,97 @@
+.landing-filters {
+    width: 100vw;
+    position: relative;
+    height: 600px;
+    overflow: hidden;
+}
+
+.landing-filters img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    z-index: -1;
+    filter: brightness(50%);
+}
+
+.landing-filters svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    fill: #002244;
+}
+
+.landing-filters h1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #69BD28;
+    font-family: 'rock-salt';
+    font-size: 3rem;
+    font-weight: 900;
+    text-shadow: 1px 1px 1px #002244;
+}
+
+@media screen and (max-width:830px) {
+    .landing-filters {
+        height: 400px;
+    }
+    .landing-filters img {
+        min-height: 600px;
+        max-height: 900px;
+    }
+}
+
+h1 {
+    text-align: center;
+    font-size: 3rem;
+    color: #69BD28;
+    padding: 30px 0;
+}
+
+h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: red;
+    padding: 20px 0;
+}
+
+p {
+    padding: 5px 0;
+    font-size: 1.1rem;
+    color: #002244;
+    text-transform: capitalize;
+}
+
+.register_form {
+    display: grid;
+    place-items: center;
+    padding: 30px 0;
+}
+
+.register_form div {
+    display: block;
+    margin: 10px 0;
+}
+
+.register_form div input {
+    width: 350px;
+    height: 40px;
+    padding: 10px 0;
+}
+
+.css_submit input {
+    background: #002244;
+    color: #69BD28;
+    transition: .5s;
+    border: solid 2px #002244;
+    cursor: pointer;
+    font-family: 'roboto';
+}
+
+.css_submit input:hover {
+    background: #69BD28;
+    color: #002244;
+    box-shadow: 5px 6px 5px 0px rgba(0, 0, 0, 0.6);
+}

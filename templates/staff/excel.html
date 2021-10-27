@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Add Product | Excel{% endblock title %}
+{% block css %}
+{% if user.is_staff %} {% else %} <meta http-equiv="refresh" content="time; URL={% url 'Pages:home' %}" /> {% endif %}  
+<link rel="stylesheet" href="{% static 'css/filters_page.css' %}">  
+<link rel="stylesheet" href="{% static 'css/excel.css' %}"> 
+<link rel="stylesheet" href="{% static 'css/loader.css' %}"> 
+{% endblock css %}
+{% block content %}
+<div style="height: 70px; width: 100vw;"></div>
+<div class="landing-filters">
+    <img src="{% static 'img/vehicle-parts.jpg' %}">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill-opacity="1" d="M0,224L1440,128L1440,320L0,320Z"></path>
+    </svg>
+{% if message %}
+    <h1 style="font-size: 2rem;" >{{message}}</h1>
+{% else %}
+    <h1 style="font-size: 2rem;">Submit A Excel File With '.xlsx' Extention</h1>
+{% endif %}
+<div class="excel-form">
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input class="file" type="file" name="excel">
+    <input class="btn-submit-file" type="submit" value="Submit">
+</form>
+</div>
+</div>
+    <div class="loader">
+        <h1>It may Takes Some Minutes</h1>
+        <div id="preloader">
+            <div id="loader"></div>
+        </div>
+    </div>
+{% endblock content %}
+{% block script %}
+<script>
+$('.btn-submit-file').click(function(){
+    $('.loader').addClass('active');
+});
+</script>
+{% endblock script %}
+
+
+
+

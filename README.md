@@ -1,0 +1,13 @@
+requered:
+<br>
+django
+<br>
+pillow
+<br>
+django-autoslug
+<br>
+django-widget-tweaks
+<br>
+django-localflavor
+<br>
+openpyxl

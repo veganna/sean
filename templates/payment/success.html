@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Thank You To Buy With Us!!{% endblock title %}
+{% block css %}{% endblock css %}
+{% block content %}
+<div style="width: 100vw; height: 80px;"></div>
+<div style="display: grid; place-items: center;">
+<h1>Thank You!!</h1>
+<p style="text-align: center;">We will Send Your Order As fast As We Can!</p>
+{% include 'order_summary.html' with items=order.items.all total_price=total_price %}
+<a href="{% url 'Pages:home' %}" style=" text-align: center; padding: 7px 30px; background:rgb(45, 37, 112);color:#69bd28;">Return To The Home Page</a>
+</div>
+<div style="width: 100vw; height: 80px;"></div>
+{% endblock content %}

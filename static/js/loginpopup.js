@@ -1,0 +1,1 @@
+$("#login").click(function() { console.log("clicked"), $(".login_modal").addClass("active") }), $("#mustlogin").click(function() { console.log("clicked"), $(".login_modal").addClass("active") }), $("#close_modal").click(function() { $(".login_modal").removeClass("active") });

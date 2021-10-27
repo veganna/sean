@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Products{% endblock title %}
+
+
+{% block css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"> 
+<link rel="stylesheet" href="{% static 'css/product_listview.css' %}">
+<link rel="stylesheet" href="{% static 'css/filters.css' %}">
+<link rel="stylesheet" href="{% static 'css/filters_page.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div style="height: 80px; width: 100vw;"></div>
+<div class="landing-filters">
+    <img src="{% static 'img/vehicle-parts.jpg' %}">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill-opacity="1" d="M0,224L1440,128L1440,320L0,320Z"></path>
+    </svg>
+    <h1>Products</h1>
+</div>
+
+<div class="form-filter">
+    <form action="{% url 'Product:submit' %}" method="post">
+        {% csrf_token %}
+        <div class='selects'>
+            <div class="box-form">
+                <p for="Vland">Vehicle Land:</p>
+                <select name="Vland" id="Vland" data-vehicle-land-url="{% url 'Product:vland' %}" required></select>
+                <p for="Vtype">Vehicle Type:</p>
+                <select name="Vtype" id="Vtype" data-vehicle-type-url="{% url 'Product:vtype' %}" required>
+                    <option value="">---------</option>
+                </select>
+            </div>
+            <div class="box-form">
+                <p for="Category">Category:</p>
+                <select name="Category" id="Category" data-category-url="{% url 'Product:category' %}" required>
+                    <option value="">---------</option>
+                </select>
+                <p for="Subcategory">Sub Category:</p>
+                <select name="Subcategory" id="Subcategory" data-subcategory-url="{% url 'Product:subcategory' %}" required>
+                    <option value="">---------</option>
+                </select>
+            </div>
+        </div>
+        <div class="btn-filter">
+            <button class="btn-submit-form" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+<div class="section-featured">
+    {% include "products.html" with product=product_list %}
+</div>
+{% if is_paginated %}
+{% include "pagination.html" with page=page_obj %}
+{% endif %}
+{% endblock content%}
+
+{% block script %}
+<script src="{% static 'js/category.ajax.js' %}"></script>
+{% endblock script %}

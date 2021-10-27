@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Checkout{% endblock title %}
+{% block css %}
+<style>
+#div_id_user{
+    display: none;
+}
+</style>
+{% endblock css %}
+{% block content %}
+<div style="width: 100vw; height: 80px;"></div>
+<div class="container my-3">
+    <h1 class="font-weight-bold">Checkout</h1>
+    <div class="summary_order" style="padding:20px 0;">
+        {% include "order_summary.html" with items=cart total_price=cart.get_total_price %}
+    </div>
+    {% if cart %}
+    <div class="row">
+        <div class="col-lg-6">
+            <h1>Shipping Options</h1>
+            <div class="shipping" style="display: flex; align-items: center;">
+                <div id="carrier" data-carrier-url="{% url 'Orders:carrier' %}" value="index"></div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            {% crispy form %}
+        </div>
+    </div>
+    {% else %}
+    <p>Your Cart Is Empty.</p>
+    {% endif %}
+</div>
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    function carrierBack(){
+        $("#submit-id-submit").attr("disabled", true);
+        $.ajax({
+            url: '{% url "Orders:carrier" %}',
+            data: {
+                "data-Value": "index"
+            },
+            success: function(a) {
+                $("#carrier").html(a);
+                let t = '<input style="display:none;">';
+            a.forEach(function(a) {
+                t += `<div onClick="select_carrier('${a.code}')" style="padding:10px; cursor:pointer; text-decoration: underline; color:#69BD28;">${a.name}</div>`
+            }), $("#carrier").html(t)
+        }
+    })
+    }
+    $(document).ready(function() {
+    $("#submit-id-submit").attr("disabled", true);
+    const a = $("#carrier").attr("data-carrier-url"),
+          t = $(this).attr("data-carrier-url");
+    let userID = "{{user.id}}";
+    let userUsername = "{{user.username}}";
+    $('#id_user').html(`<option value="${userID}" selected>${userUsername}</option>`);
+    $.ajax({
+        url: a,
+        data: {
+            "data-Value": t
+        },
+        success: function(a) {
+            $("#carrier").html(a);
+            let t = '<input style="display:none;">';
+            a.forEach(function(a) {
+                t += `<div onClick="select_carrier('${a.code}')" style="padding:10px; cursor:pointer; text-decoration: underline; color:#69BD28;">${a.name}</div>`
+            }), $("#carrier").html(t)
+        }
+    })
+
+})
+</script>
+<script>
+    function select_carrier(b){
+        const shippCarrier= b;    
+        let zip_code = $("#id_zip_code").val();
+        let state = $("select#id_state option:selected").val();
+        let city = $("#id_city").val();
+        let address1 = $("#id_address_1").val();
+        let address2 = $("#id_address_2").val();
+        console.log(address1);
+
+        $.ajax({
+        url: '{% url "Orders:rates" %}',
+        data: {
+            "data-Carrier": shippCarrier,
+            "data-Zipcode": zip_code,
+            "data-State": state,
+            "data-City": city,
+            "data_Address_1": address1,
+            "data_Address_2": address2,
+        },
+        success: function(a) {
+            $("#carrier").html(a);
+            let t = '<div onClick="carrierBack()" style="padding:10px 0; cursor:pointer; text-decoration: underline; color:#69BD28;">Go Back</div>';
+            let num;
+            if (a.error_service != null){
+                t = `<div onClick="carrierBack()" style="padding:10px 0; cursor:pointer; text-decoration: underline; color:#69BD28;">Go Back</div><div>${a.error_service}</div>`;
+                $("#carrier").html(t)
+            }else{
+                a.forEach(function(a) {
+                num = a.shipmentCost+a.otherCost;
+                    t += `<div onClick="select_carrier_service('${a.serviceCode}', '${num}', '${a.serviceName}')" style="padding:10px; cursor:pointer; display:flex; align-items:center; gap:0 10px; text-decoration: underline; color:#69BD28;"><div>Service Name: ${a.serviceName};</div><div>Cost: $${num.toFixed(2)}</div></div>`
+                }), $("#carrier").html(t)
+            }
+        },
+        fail: function(){
+            carrierBack();
+            
+        }
+    })
+    };
+    function select_carrier_service(x, y, z){
+        const shippingCost = y;
+        const serviceCode = x;
+        const serviceName = z;
+        $.ajax({
+        url: '{% url "Orders:shppingCost" %}',
+        data: {
+            "data_Service-carrier": x,
+            "data_Service-code": z,
+            "data_Shipping-cost": y
+        },
+        success: function(a) {
+            t = `<div onClick="carrierBack()" style="padding:10px 0; cursor:pointer; text-decoration: underline; color:#69BD28;">Go Back</div>${a.checked}`;
+            $("#carrier").html(t);
+            $("#submit-id-submit").removeAttr("disabled");
+        }
+    })
+
+    }
+
+</script>
+{% endblock script %}
