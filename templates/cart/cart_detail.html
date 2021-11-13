@@ -1,0 +1,80 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %} {% if user.is_authenticated %} {{user.username}} {% else %} YRYRPars {% endif %} | Cart{% endblock title %}
+{% block css %}
+{% endblock css %}
+{% block content %}
+<div style="height:70px; width: 100vw;"></div>
+<div class="container my-3 " >
+    <h1 class="font-weight-bold" style="padding: 20px; text-align: center;" >My Cart</h1>
+    {% if cart %}
+    <table class="table">
+        <thead>
+            <tr class="bg-light">
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Product Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+            {% with product=item.product %}
+            <tr>
+                <td class="align-middle">
+                    <a target="_blank" class="text-decoration-none" href="{{ product.get_absolute_url }}">
+                        <img style="width: 120px; height: 120px;" src="{{product.product_photo_url}}" alt="{{ product.product_name }}">
+                        {{ product.product_name }}
+                    </a>
+                </td>
+                <td class="align-middle">
+                    <form action="{% url 'Cart:add' product.id %}" method="post" style="margin-block: 10px;">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col" style="margin-bottom: 10px;">
+                                {% render_field item.update_quantity_form.quantity class+="form-control" %}
+                            </div>
+                            <div class="col">
+                                <input class="btn btn-info" type="submit" value="Update">
+                            </div>
+                        </div>
+                        {{ item.update_quantity_form.override }}
+                    </form>
+                    <form action="{% url 'Cart:remove' product.id %}" method="post">
+                        <div class="form-row">
+                            <div class="col">
+                                {% csrf_token %}
+                                <input class="btn btn-danger" type="submit" value="Remove" >
+                            </div>
+                        </div>
+                    </form>
+                </td>
+                <td class="align-middle">${{ item.price }}</td>
+
+            </tr>
+            {% endwith %}
+            {% endfor %}
+            <tr class="bg-light">
+                <td class="font-weight-bold">Total</td>
+                <td></td>
+                <td class="font-weight-bold">$ {{ cart.get_total_price }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% else %}
+    <p>Your Cart Is Empty</p>
+    {% endif %}
+    <p class="text-right">
+        <a class=" btn btn-primary" href="{% url 'Product:product_listview' %}">
+            Keep Buying
+        </a>
+
+        <a  style="color: #fff;" {% if user.is_authenticated %}{% block login %} class="btn btn-success {% if not cart %}disabled{% endif %}" href="{% url 'Orders:create' %}"{% endblock login %}{% else %} class="btn btn-success" id="mustlogin"{% endif %} >
+            Check Out
+        </a>
+    </p>
+</div>
+
+{% endblock content %}

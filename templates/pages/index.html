@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %}YRYR Parts | Home{% endblock title %} 
+{% load static %} 
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/filters.css' %}"> 
+{% endblock css %} 
+{% block content %}
+<div style="width: 100vw; height: 80px;"></div>
+<div class="find-a-part-containder">
+    <div class="center_flex">
+        <div class="img_box"></div>
+    <div class="title_find">
+        <h1>Find a</h1>
+        <h1 class="title_giga">Part</h1>
+    </div>
+    <div class="sub-title-index">
+        Use Our Tool To Find The Best Deal <br>On 
+            The Part You Need For Your Powersport Vehicle
+    </div>
+
+    <div class="form-filter">
+    <form method="post" action="{% url 'Search:filters' %}">
+        <div class='selects'>
+            {% csrf_token %}
+            <div class="box-form">
+                <p for="Vtype">Vehicle Type<span style="color: red;">*</span></p>
+                <select name="Vtype" id="Vtype" data-vehicle_type-url="{% url 'Ajax:vehicle_type' %}" required></select>
+                <p for="Make">Make<span style="color: red;">*</span></p>
+                <select name="Make" id="Make" data-make-url="{% url 'Ajax:make' %}" required>
+                        <option value="">---------</option>
+                    </select>
+                <p for="Model">Model<span style="color: red;">*</span></p>
+                <select name="Model" id="Model" data-model-url="{% url 'Ajax:model' %}" required>
+                        <option value="">---------</option>
+                    </select>
+            </div>
+            <div class="box-form">
+                <p for="Year">Year<span style="color: red;">*</span></p>
+                <select name="Year" id="Year" data-year-url="{% url 'Ajax:year' %}" required>
+                        <option value="">---------</option>
+                    </select>
+                <p for="category">Category<span style="color: red;">*</span></p>
+                <select name="category" id="category" data-category-url="{% url 'Ajax:category' %}"  required>
+                        <option value="">---------</option>
+                    </select>
+                <p for="subcategory">Sub Category</p>
+                <select name="subcategory" id="subcategory" data-subcategory-url="{% url 'Ajax:subcategory' %}">
+                        <option value="">---------</option>
+                    </select>
+                <p for="brand">Brand</p>
+                <select name="brand" id="brand" data-brand-url="{% url 'Ajax:brand' %}">
+                        <option value="">---------</option>
+                    </select>
+            </div>
+        </div>
+        <div class="btn-filter">
+            </br>
+            <button class="btn-submit-form"type="submit">Find My Part <i class="fas fa-search"></i></button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+<div style="width:100%; background:#69BD28; height:40px;"></div>
+<div class="find-a-part-container-vtype">
+    <a href="{% url 'Product:land' 'Ground' %}"><img class="vtype-img" src="{% static 'img/4road.png' %}"></a>
+    <a href="{% url 'Product:land' 'Water' %}"><img class="vtype-img" src="{% static 'img/jetski.png' %}"></a>
+    <a href="{% url 'Product:land' 'Snow' %}"><img class="vtype-img"src="{% static 'img/snowmobile.png' %}"></a>
+</div>
+</div>
+<div class="info-start">
+    <h1>Why Choose Us?</h1>
+    <div class="section-infos">
+        <div class="box">
+            <i class="fas fa-globe-americas"></i>
+            <h3>Nationwide Shipping</h3>
+            <h3>We will ship anywhere in the U.S... FAST!</h3>
+        </div>
+        <div class="box">
+            <div class="content">
+                <i class="fas fa-cubes"></i>
+                <h3>Best Quality</h3>
+                <h3>Quality Parts, Quality Manufacturers</h3>
+            </div>
+        </div>
+        <div class="box">
+            <div class="content">
+                <i class="fas fa-dollar-sign"></i>
+                <h3>Best Pricing</h3>
+                <h3>Competitive Pricing!</h3>
+            </div>
+        </div>
+        <div class="box">
+            <div class="content">
+                <i class="fas fa-lock"></i>
+                <h3>Secure Payments</h3>
+                <h3>Secure Site!</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %} 
+{% block script %}
+    <script src="{% static 'js/filters.ajax.js' %}"></script>
+{% endblock script %}

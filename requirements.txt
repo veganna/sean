@@ -1,0 +1,12 @@
+django
+pillow
+django-autoslug
+django-widget-tweaks
+django-localflavor
+openpyxl
+whitenoise
+django-model-utils
+django-crispy-forms
+gunicorn
+mysqlclient
+requests

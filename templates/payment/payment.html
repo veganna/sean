@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}YRYRParts | Payment{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/filters_page.css' %}">
+<link rel="stylesheet" href="{% static 'css/checkout_page.css' %}">
+
+{% endblock css %}
+
+
+{% block content %}
+{% if user.is_authenticated %}
+{% block user_authenticated %}
+{% with total_price=cart.get_total_price %}
+<div id="script_data" total-price="{{total_price_after_shipping}}" data-order-id="{{order.id}}" data-url="{% url 'Payment:sucess' %}" data-paypal-email="{{paypal_email_receive}}" data-paypal-secret="{{paypal_secret_id}}" data-paypal-client="{{paypal_client_id}}" style="width: 100vw; height: 80px;"></div>
+<div class="landing-filters">
+    <img src="{% static 'img/man_jetski.jpg' %}">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill-opacity="1" d="M0,224L1440,128L1440,320L0,320Z"></path>
+    </svg>
+    <h1>Checkout</h1>
+</div>
+<div class="checkout">
+    {% include "order_summary.html" with items=order.items.all total_price=cart.get_total_price %}
+    <div id="paypal-button-container"></div>
+</div>
+{% endwith %}
+{% endblock user_authenticated %}
+{% else %}
+<meta http-equiv="refresh" content="1; URL='{% url 'Pages:home' %} '"/>
+{% endif %}
+{% endblock content %}
+
+
+{% block script %}
+<script src="https://www.paypal.com/sdk/js?client-id={{paypal_client_id}}"></script>
+<script src="{% static 'js/payment.js' %}"></script>
+{% endblock script %}

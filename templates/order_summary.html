@@ -1,0 +1,24 @@
+<div class="card border-0 bg-light p-4">
+    <h4>Order Summary</h4>
+    <ul class="list-group list-group-flush">
+        {% if service_name %}
+        <div style="width: 100%;">{{shipping_price}}- Cost:$ {{total_price}}</div>
+        {% endif %}
+        {% for item in items %}
+        <li style="font-family: 'roboto' !important; display: flex;" class="list-group-item bg-light">
+            <img style="width: 100px; height: 100px;"src="{{item.product.product_photo_url}}">
+            <div style="width: 250px;">
+            <p style="font-family: 'roboto' !important;">
+            {{ item.quantity }}x {{ item.product.product_name }}
+            <span class="float-right"> $ {{ item.total_price }}{{ item.get_total_price }} </span>
+            </p>
+            </div>
+        </li>
+        {% endfor %}
+        {% if total_price %}
+        <li style="font-family: 'roboto' !important;" class="font-weight-bold list-group-item bg-light">Total:
+            <span style="font-family: 'roboto' !important;" class="float-right"> $ {{ total_price }}</span>
+        </li>
+        {% endif %}
+    </ul>
+</div>

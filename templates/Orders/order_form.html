@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Checkout{% endblock title %}
+{% block css %}
+<style>
+#div_id_user{
+    display: none;
+}
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.dimmer{
+    display: grid;
+    place-items: center;
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.5);
+    color: white;
+    z-index: 99999;
+}
+.rotating {
+    font-size: 5rem;
+  -webkit-animation: rotating 2s linear infinite;
+  -moz-animation: rotating 2s linear infinite;
+  -ms-animation: rotating 2s linear infinite;
+  -o-animation: rotating 2s linear infinite;
+  animation: rotating 2s linear infinite;
+}
+</style>
+{% endblock css %}
+{% block content %}
+<div style="width: 100vw; height: 80px;"></div>
+<div class="container my-3">
+    <h1 class="font-weight-bold">Checkout</h1>
+    <div class="summary_order" style="padding:20px 0;">
+        {% include "order_summary.html" with items=cart total_price=cart.get_total_price %}
+    </div>
+    {% if cart %}
+    <div class="row">
+        <div class="col-lg-6">
+            <h1>Shipping Options</h1>
+            <div class="shipping" style="display: flex; align-items: center;">
+                <div id="carrier" url-data="{% url 'Orders:GetRates' %}" url-data-update="{% url 'Orders:update_price' %}">
+                    <div style="margin: 40px 0; cursor: pointer;" id="shippingOptions" url-data="{% url 'Orders:GetRates' %}" onclick="selectshipping()" class="btn btn-primary btn btn-success btn-lg btn-block">Calculate Shipping Cost</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            {% crispy form %}
+        </div>
+    </div>
+    {% else %}
+    <p>Your Cart Is Empty.</p>
+    {% endif %}
+</div>
+
+{% endblock content %}
+
+{% block script %}
+<script>
+    $(document).ready(function() {
+    $("#submit-id-submit").attr("disabled", true);
+    let userID = "{{user.id}}";
+    let userUsername = "{{user.username}}";
+    $('#id_user').html(`<option value="${userID}" selected>${userUsername}</option>`);
+    })
+</script>
+<script>
+function selectshipping(){
+    let zip_code = $("#id_zip_code").val(),
+        state = $("#id_state").val(),
+        city = $("#id_city").val(),
+        address1 = $("#id_address_1").val(),
+        address2 = $("#id_address_2").val();
+    let uri = $("#carrier").attr("url-data");
+    if (address1==false|| state==false || city==false || zip_code==false  ){
+
+        window.alert("Please fill out all of the required options.");
+        
+    }else{
+     
+    
+    $("#carrier").html("<div class='dimmer'><i class='fas fa-redo-alt rotating'/></div>");
+    $.ajax({
+        url: uri,
+        data: {
+            "data-Zipcode": zip_code,
+            "data-State": state,
+            "data-City": city,
+            "data_Address_1": address1,
+            "data_Address_2": address2
+        },
+        success: function(a) {
+            $("#carrier").html(a);
+            let t = '';
+            a.forEach(function(a) {
+                t += `<div onclick="updateTotalprice('${a.totalPrice}','${a.serviceCode}')" style="padding:10px; cursor:pointer; display:flex; align-items:center; gap:0 10px; text-decoration: underline; color:#002244; font-weight:600;"><input disabled type="checkbox" class="shippingOption" id="${a.serviceCode}"><div>${a.serviceName} Cost:${a.totalPrice}</div></div>`
+            }), $("#carrier").html(t)
+        }
+    })
+}
+}
+
+function updateTotalprice(total_price, service_code){
+    let uri = $("#carrier").attr("url-data-update");
+    $("input.shippingOption").removeAttr("checked");
+    $("#"+service_code).attr("checked", true);
+    $.ajax({
+        url: uri,
+        data: {
+            "data-Price": total_price,
+            "data-Service": service_code,
+        },
+        success: function(a) {
+            let t = `${a.checked}`;
+            $("#submit-id-submit").attr("disabled", false);
+        }
+    })
+}
+</script>
+{% endblock script %}
+
+
+

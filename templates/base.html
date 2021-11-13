@@ -1,0 +1,144 @@
+ {% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product_card.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login_modal.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">  {% block css %}{% endblock css %}
+</head>
+
+<body>
+    <div class="awesome_wrapper">
+        <nav>
+            <input type="checkbox" id="show-search">
+            <input type="checkbox" id="show-menu">
+            <label for="show-menu" class="menu-icon"><i class="fas fa-bars"></i></label>
+            <div class="content">
+                <div class="logo">
+                    <a href="{% url 'Pages:home' %}"><img src="{% static 'img/logo.png' %}"></a>
+                </div>
+                <ul class="links">
+                    <li><a href="{% url 'Pages:home' %}">Home</a></li>
+                    <li><a href="{% url 'Pages:about' %}">About</a></li>
+                    <li><a href="{% url 'Pages:contact' %}">Contact Us</a></li>
+                    <!--li>
+                        <a href="#" class="desktop-link">Features</a>
+                        <input type="checkbox" id="show-features">
+                        <label for="show-features">Features</label>
+                        <ul>
+                            <li><a href="{% url 'Search:filters' %}">Find A Part</a></li>
+                        </ul>
+                    </li-->
+                    <li><a href="{% url 'Product:product_listview' %}">Products</a></li>
+                    <!--li>
+                        <a href="{% url 'Product:product_listview' %}" class="desktop-link">Products</a>
+                        <input type="checkbox" id="show-services">
+                        <label for="show-services">Products</label>
+                        <ul>
+                            
+                            <li>
+                                <a href="#" class="desktop-link">More Items</a>
+                                <input type="checkbox" id="show-items">
+                                <label for="show-items">More Items</label>
+                                <ul>
+                                    <li><a href="#">Sub Menu 1</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li-->
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'Account:logout' %}">Logout</a></li>
+                    {% else %}
+                    <li><a id="login">Login</a></li>
+                    <li><a href="{% url 'Account:register' %}">Register</a></li>
+                    {% endif %}
+                    {% if user.is_staff %}
+                    <li><a href="{% url 'Staff:excel' %}">Add Product</a></li>
+                    {% endif %}
+                    <li><a style="font-size: 1.3rem; color: #2D2570; padding: 30px 17px;" href="{% url 'Cart:detail' %}"><i class="fas fa-shopping-cart"></i></a></li>
+                    
+                </ul>
+            </div>
+            <label for="show-search" class="search-icon"><i class="fas fa-search"></i></label>
+            <form action="{% url 'Search:searchbar' %}" class="search-box" method='post'>
+                {% csrf_token %}
+                <input name="searched" type="text" placeholder="Search By OEM" required>
+                <button type="submit" class="go-icon"><i class="fas fa-long-arrow-alt-right"></i></button>
+            </form>
+        </nav>
+    </div>
+
+
+    <div class="main-container">
+        {% block content %} {% endblock content %}
+    </div>
+    <div class="footer">
+        <div class="box-footer">
+            <h3>Features</h3>
+            <h4>Find a Part</h4>
+            <h4> How to Videos</h4>
+        </div>
+        <div class="box-footer">
+            <h3>Vehicles</h3>
+            <h4>Jet Ski</h4>
+            <h4>Jet Boat</h4>
+            <h4>ATV / UTV</h4>
+            <h4>Snowmobile</h4>
+        </div>
+        <div class="box-footer">
+            <h3>About</h3>
+            <a href="https://www.ebay.com/usr/h2oandsnow1">
+                <h4>eBay Store</h4>
+            </a>
+            <h4>Community</h4>
+            <h4>Our Story</h4>
+        </div>
+        <div class="box-footer">
+            <h3>Contact</h3>
+            <h4>727 648 4823</h4>
+            <h4>YRYR.Parts@gmail.com</h4>
+            <a href="https://www.google.com/maps/place/624+E+Bay+Dr+%235,+Largo,+FL+33770/@27.9168341,-82.7825105,17z/data=!3m1!4b1!4m5!3m4!1s0x88c2fa7dd3bbfad3:0x232297250157e077!8m2!3d27.9168341!4d-82.7803218">
+                <h4>Map</h4>
+            </a>
+        </div>
+    </div>
+    <div class="social-footer">
+        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+        <a href="https://www.facebook.com/yourrealmyourride/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.instagram.com/yourrealmyourride/?hl=en" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+    <div class="footer-footer">
+        <p>YRYRParts © 2021</p>
+    </div>
+    
+    <div class="login_modal">
+        <form action="{% url 'Account:login' %}" method="post">
+        {% csrf_token %}
+            <input type="hidden" name="path" value="{{request.path}}">
+            <i id="close_modal"class="fas fa-times"></i>
+            <h2>Login</h2>
+            <p>E-mail:</p>
+            <input type="email" name="email" required>
+            <p>Password:</p>
+            <input type="password" name="password"></br>
+            <input class="btn_login_submit" type="submit" value="Login" required>
+            <p><a href="{% url 'Account:register' %}" style="text-align: center; color: #69BD28; text-decocation: none;">Create An Account</a></p>
+        </form>
+    </div>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/loginpopup.js' %}"></script>
+{% block script %}{% endblock script %}
+
+
+</body>

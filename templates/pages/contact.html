@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}YRYRPARTS | Contact Us{% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+{% endblock css %}
+{% block content %}
+<div style="width: 100%; height: 70px;"></div>
+<div class="contact_page">
+    <img src="{% static 'img/background.jpg' %}">
+    <div class="box-infos-contact">
+        <div class="contact_infos">
+            <h1>Contact Us</h1>
+            <div class="infos_contact_location">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3525.515619283142!2d-82.78251048493334!3d27.916834082705684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88c2fa7dd3b95555%3A0x3457ec7bfa3c951d!2s624%20E%20Bay%20Dr%20Unit%205%2C%20Largo%2C%20FL%2033770%2C%20USA!5e0!3m2!1sen!2sbr!4v1628994094405!5m2!1sen!2sbr"
+                    width="200" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <div>
+                    <p><strong>Phone:</strong></p>
+                    <p>727 648 4823</p>
+                    <p>Store Hours:</p>
+                    <p>Tue – Sunday 9 – 5</p>
+                </div>
+            </div>
+        </div>
+        <div class="contact_infos">
+            <form method="post">
+                {% csrf_token %}
+                <p>First Name</p>
+                <input type="text" placeholder="First Name" name="Fname">
+                <p>Last Name</p>
+                <input type="text" placeholder="Last Name" name="Lname">
+                <p>E mail</p>
+                <input type="email" placeholder="E-mail" name="Email">
+                <p>Phone Number</p>
+                <input type="number" placeholder="88 8888-8888" name="Pnumber">
+                <p>Ask Us Your Question!</p>
+                <textarea cols="30" rows="10" placeholder="Ask Us Your Question!" name="Question"></textarea></br>
+                </br>
+                <input style="cursor:pointer;" class="main-btn" type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Results | {{term}}{% endblock title %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/product_list.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"> 
+{% endblock css %}
+
+{% block content %}
+<div class="product-header">
+    <img src="{% static 'img/vehicle-parts.jpg' %}" alt='Resultes for "{{term}}"'>
+    <h1>Results for "{{term}}"</h1>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#F2F2F2" fill-opacity="1" d="M0,224L1440,128L1440,320L0,320Z"></path>
+    </svg>
+</div>
+<div id="scroll_to" class="section-featured">
+{% if product %}
+{% include "products.html" with product=product %}
+{% else %}
+<h1 style="text-align:center; font-size:3rem; color:;">"No Results"</h1>
+{% endif %}
+</div>
+<div class="paginator_land">
+{% if product.has_other_pages %}
+  <ul class="pagination">
+    {% if product.has_previous %}
+      <li><a href="?page={{ product.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in product.paginator.page_range %}
+      {% if product.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if product.has_next %}
+      <li><a href="?page={{ product.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+</div>
+{% endblock content%}
+
+{% block script %}
+<script src="{% static 'js/scroll.js' %}"></script>
+{% endblock script %}

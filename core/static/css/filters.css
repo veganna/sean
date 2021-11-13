@@ -1,0 +1,179 @@
+.find-a-part-containder {
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 550px;
+    overflow: hidden;
+    background: rgba(9, 20, 63, 0.9);
+}
+@media screen and (min-width:1000px) {
+    .find-a-part-containder .center_flex .img_box {
+        background: url(/static/img/man_jetski.jpg);
+        z-index: -2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+}
+
+.find-a-part-containder .center_flex .title_find h1 {
+    margin-top: 30px;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #69BE28;
+    text-align: center;
+    font-family: 'rock-salt' !important;
+}
+
+.find-a-part-containder .center_flex .title_find .title_giga {
+    font-size: 6rem;
+    color: #69BE28;
+    text-align: center;
+    font-family: 'rock-salt' !important;
+}
+
+.find-a-part-containder .center_flex .sub-title-index {
+    font-size: 1.3rem;
+    color: #fff;
+    text-align: center;
+    font-family: 'roboto';
+    padding:2em;
+}
+
+.btn-submit-form {
+    width: 300px !important;
+    height: 40px;
+    font-family: 'roboto' !important;
+    font-size: 1.2rem;
+    color: #002244 !important;
+    border: solid 3px #002244 !important;
+    background: #69BD28 !important;
+    margin-top: 10px;
+    transition: .5s;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.btn-submit-form:hover {
+    border: solid 2px #69BD28 !important;
+    background: #002244!important;
+    color: #69BD28 !important;
+}
+
+.btn-submit-form-reverse {
+    width: 400px !important;
+    height: 40px;
+    font-family: 'roboto' !important;
+    color: #69BD28 !important;
+    border: solid 3px #69BD28 !important;
+    background: #002244 !important;
+    margin-top: 10px;
+    transition: .5s;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.btn-submit-form-reverse:hover {
+    border: solid 2px #002244 !important;
+    background: #69BD28 !important;
+    color: #002244 !important;
+}
+
+.find-a-part-container-vtype {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    gap: 10px 4%;
+    padding: 10px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.find-a-part-container-vtype a {
+    width: 33%;
+    transition: 500ms ease-in-out;
+    cursor: pointer;
+}
+
+.find-a-part-container-vtype a:hover {
+    width: 40%;
+}
+.vtype-img{
+    width: 100%;
+}
+
+
+
+@media screen and (max-width: 1192px) {
+    .find-a-part-containder .center_flex .title_find h1 {
+        font-size: 3rem;
+    }
+    .find-a-part-containder .center_flex .title_find .title_giga {
+        font-size: 5rem;
+    }
+    .find-a-part-containder .center_flex .sub-title-index {
+        font-size: 1rem;
+    }
+    select{
+        width: 300px !important;
+    }
+
+}
+
+.form-filter form {
+    padding: 30px;
+    background: transparent;
+    position: relative;
+}
+
+.form-filter .selects {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.form-filter .selects .box-form {
+    display: block;
+    padding: 7px;
+}
+
+.form-filter .selects .box-form p {
+    margin: 5px 0;
+    color: #69BD28;
+    text-align: left;
+    font-family: 'roboto';
+}
+
+select {
+    width: 400px;
+    color: #002244;
+    height: 35px;
+    font-family: 'roboto';
+}
+
+.btn-filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paginator_land {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    font-family: 'roboto';
+    font-size: 1.2rem;
+    color: #002244;
+}
+
+.paginator_land ul li {
+    color: #002244;
+    margin: 0 10px;
+}

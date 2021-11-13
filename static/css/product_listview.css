@@ -1,0 +1,25 @@
+.product-header {
+    width: 100vw;
+    color: #69BD28;
+    text-shadow: 1px 1px 1px #002244;
+    text-align: center;
+    padding: 30px 0;
+    font-size: 3rem;
+}
+
+.pagination {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    color: #69BD28;
+}
+
+.pagination p {
+    text-align: center !important;
+}
+
+.pagination p a {
+    color: #002244;
+}

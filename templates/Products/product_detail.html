@@ -1,0 +1,67 @@
+{% extends 'base.html' %} {% block title %}{{product.product_name}}{% endblock title %} {% load static %} {% load widget_tweaks %} {% block css %}
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/css/swiper.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"> {% endblock css %} {% block content %}
+<div style="height: 60px; width: 100vw;"></div>
+<div class="product">
+    <div class="product-image">
+        {% if product.product_photo_url %}
+        <img src="{{product.product_photo_url}}"> {% else %}
+        <img src="{{product.product_photo.url}}"> {% endif %}
+    </div>
+    <div class="product-info">
+        <h1>{{product.product_name}}</h1>
+        <h2>${{product.product_sale_price}}</h2>
+        <form class="form-group" action="{% url 'Cart:add' product.id %}" method="post">
+            <p class="form-inline">
+                {{ form.quantity.label_tag }} {% render_field form.quantity class+="form-control ml-sm-3" %} {{ form.override }}
+            </p>
+            {% csrf_token %}
+            <input class="add-btn" type="submit" value="Add to cart">
+        </form>
+        <h3>Product Information</h3>
+        <div>
+        <ul>
+            <li>Product Part#: {{product.product_SKU}}</li>
+            {% if product.product_is_OEM %}
+            <li>OEM</li>
+            {% else %}
+            <li>Aftermark</li>
+            {% endif %}
+            {% if product_OEM %}
+            <li>Product OEM#: {{product.product_OEM}}</li>
+            {% endif %}
+        </ul> 
+        </div>
+        <h3>Product Description</h3>
+        <div id="product_description"></div>
+    </div>
+</div>
+<div style="width: 100vw; display: flex; justify-content: center; align-items: center;"> 
+    <h1 style="color: #69BD28; padding: 20px 0;">Part Compatibility</h1>
+</div>
+
+<div style="padding: 0 20px;">
+<table class="table" data-ajax-url="{% url 'Product:identify' %}" product-identify-argument="{{product.product_SKU}}">
+    <thead>
+        <th scope="col">Vehicle Type</th>
+        <th scope="col">Make</th>
+        <th scope="col">Model</th>
+        <th scope="col" >Years</th>
+
+    </thead>
+    <tbody id="table_body"></tbody>
+</table>
+</div>
+
+</div>
+{% endblock content%} {% block script %}
+<script>
+    function fix_description() {
+        let html_data = '{{product.product_description}}';
+        return html_data;
+    }
+</script>
+<script src="{% static 'js/fix_description.js' %}"></script>
+<script src="{% static 'js/identify.js' %}"></script>
+{% endblock script %}

@@ -1,0 +1,62 @@
+<div class="products-carrousel">
+    <div class="page-wrapper">
+        <div class="page-inner">
+            <div class="row">
+                {% for i in product %}
+                {% if i.is_active %}
+                {% block product_validation %}
+                <div class="el-wrapper">
+                    <div class="box-up">
+                        <img class="img" src="{{i.product_photo_url}}" alt="{{i.product_name}}">
+                        <div class="img-info">
+                            <div class="info-inner">
+                                <span class="p-name"  >{{i.product_name}}</span>
+                            </div>
+                            <div class="a-size">
+                            <ul style="list-style: none;">
+                                <li>{{i.get_category_vehicle_type}}</li>
+                                <li>{{i.get_category_sub_category}}</li>
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-down">
+                        <div class="h-bg">
+                            <div class="h-bg-inner"></div>
+                        </div>
+                        {% if i.product_stock == 0 %}
+                        {% block outstock %}
+                        <a class="cart">
+                            {% if i.product_sale_price %}
+                            <span class="price" style="font-size:1.1rem;">${{i.product_sale_price}}</span>
+                            {% else %}
+                            <span class="price" style="font-size:1.1rem;">${{i.product_price}}</span>
+                            {% endif %}
+                            <span class="add-to-cart">
+                                    <span class="txt">Product Out Of Stock</span>
+                            </span>
+                        </a>
+                        {% endblock outstock %}
+                        {% else %}
+                        {% block stock %}
+                        <a class="cart" href="{{i.get_absolute_url}}">
+                            {% if i.product_sale_price %}
+                            <span style="font-size:1.1rem;" class="price">${{i.product_sale_price}}</span>
+                            {% else %}
+                            <span style="font-size:1.1rem;" class="price">${{i.product_price}}</span>
+                            {% endif %}
+                            <span class="add-to-cart">
+                                    <span class="txt">View Product</span>
+                            </span>
+                        </a>
+                        {% endblock stock %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endblock product_validation %}
+                {% endif %}
+                {% endfor %}         
+            </div>
+        </div>
+    </div>
+</div>

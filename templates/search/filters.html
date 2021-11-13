@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block title %}YRYR Parts | Home{% endblock title %} 
+{% load static %} 
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/filters.css' %}"> 
+{% endblock css %} 
+{% block content %}
+<div style="width: 100vw; height: 80px;"></div>
+<div class="find-a-part-containder">
+    <div class="center_flex">
+        <div class="img_box"></div>
+    <div class="title_find">
+        <h1>Find a</h1>
+        <h1 class="title_giga">Part</h1>
+    </div>
+    <div class="sub-title-index">
+        Use Our Tool To Find The Best Deal <br>On 
+            The Part You Need For Your Powersport Vehicle
+    </div>
+
+    <div class="form-filter">
+    <form method="post" action="{% url 'Search:filters' %}">
+        <div class='selects'>
+            {% csrf_token %}
+            <div class="box-form">
+                <p for="Vtype">Vehicle Type<span style="color: red;">*</span></p>
+                <select name="Vtype" id="Vtype" data-vehicle_type-url="{% url 'Ajax:vehicle_type' %}" required></select>
+                <p for="Make">Make<span style="color: red;">*</span></p>
+                <select name="Make" id="Make" data-make-url="{% url 'Ajax:make' %}" required>
+                        <option value="">---------</option>
+                    </select>
+                <p for="Model">Model<span style="color: red;">*</span></p>
+                <select name="Model" id="Model" data-model-url="{% url 'Ajax:model' %}" required>
+                        <option value="">---------</option>
+                    </select>
+            </div>
+            <div class="box-form">
+                <p for="Year">Year<span style="color: red;">*</span></p>
+                <select name="Year" id="Year" data-year-url="{% url 'Ajax:year' %}" required>
+                        <option value="">---------</option>
+                    </select>
+                <p for="category">Category<span style="color: red;">*</span></p>
+                <select name="category" id="category" data-category-url="{% url 'Ajax:category' %}"  required>
+                        <option value="">---------</option>
+                    </select>
+                <p for="subcategory">Sub Category</p>
+                <select name="subcategory" id="subcategory" data-subcategory-url="{% url 'Ajax:subcategory' %}">
+                        <option value="">---------</option>
+                    </select>
+                <p for="brand">Brand</p>
+                <select name="brand" id="brand" data-brand-url="{% url 'Ajax:brand' %}">
+                        <option value="">---------</option>
+                    </select>
+            </div>
+        </div>
+        <div class="btn-filter">
+            </br>
+            <button class="btn-submit-form"type="submit">Find My Part <i class="fas fa-search"></i></button>
+        </div>
+    </form>
+</div>
+</div>
+</div>
+<div id="scroll_to" style="width:100%; background:#69BD28; height:40px;"></div>
+{% if product %}
+{% else %}
+<div class="find-a-part-container-vtype">
+    <a href="{% url 'Product:land' 'Ground' %}"><img class="vtype-img" src="{% static 'img/4road.png' %}"></a>
+    <a href="{% url 'Product:land' 'Water' %}"><img class="vtype-img" src="{% static 'img/jetski.png' %}"></a>
+    <a href="{% url 'Product:land' 'Snow' %}"><img class="vtype-img"src="{% static 'img/snowmobile.png' %}"></a>
+</div>
+{% endif %}
+</div>
+{% if product %} {% block products %}
+<div style="padding:30px 0;"class="section-featured">
+<div class="products-carrousel">
+    <div class="page-wrapper">
+        <div class="page-inner">
+            <div class="row">
+                {% for i in product %}
+                {% if i.is_active %}
+                {% block product_validation %}
+                <div style=" width:500px; box-shadow:0 0px 5px 5px #69BD28;" class="el-wrapper">
+                    <div class="box-up">
+                        <img class="img" src="{{i.product_photo_url}}" alt="{{i.product_name}}">
+                        <div class="img-info">
+                            <div class="info-inner">
+                                <span class="p-name"  style="font-family:'roboto'; font-size: 1.3rem; margin-bottom: 15px;">{{i.product_name}}</span>
+                            </div>
+                            <div class="a-size">
+                            <ul style="list-style: none;">
+                                <li>{{i.get_category_vehicle_type}}</li>
+                                <li>{{i.get_category_sub_category}}</li>
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-down">
+                        <div class="h-bg">
+                            <div class="h-bg-inner"></div>
+                        </div>
+                        {% if i.product_stock == 0 %}
+                        {% block outstock %}
+                        <a class="cart">
+                            {% if i.product_sale_price %}
+                            <span class="price" style="font-size:1.1rem;">${{i.product_sale_price}}</span>
+                            {% else %}
+                            <span class="price" style="font-size:1.1rem;">${{i.product_price}}</span>
+                            {% endif %}
+                            <span class="add-to-cart">
+                                    <span class="txt">Product Out Of Stock</span>
+                            </span>
+                        </a>
+                        {% endblock outstock %}
+                        {% else %}
+                        {% block stock %}
+                        <a class="cart" href="{{i.get_absolute_url}}">
+                            {% if i.product_sale_price %}
+                            <span style="font-size:1.1rem;" class="price">${{i.product_sale_price}}</span>
+                            {% else %}
+                            <span style="font-size:1.1rem;" class="price">${{i.product_price}}</span>
+                            {% endif %}
+                            <span class="add-to-cart">
+                                    <span class="txt">View Product</span>
+                            </span>
+                        </a>
+                        {% endblock stock %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endblock product_validation %}
+                {% endif %}
+                {% endfor %}         
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+{% endblock products %} {% endif %} {% endblock content %} {% block script %}
+<script src="{% static 'js/filters.ajax.js' %}"></script>
+<script src="{% static 'js/scroll.js' %}"></script>
+{% endblock script %}

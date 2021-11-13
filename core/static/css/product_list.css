@@ -1,0 +1,55 @@
+body {
+    overflow-x: hidden;
+    background: #fff;
+}
+
+.product-header {
+    width: 100vw;
+    margin: 0;
+    position: relative;
+}
+
+.product-header img {
+    width: 100vw;
+    height: 500px;
+    position: relative;
+    z-index: -1;
+}
+
+.product-header h1 {
+    font-family: 'rock-salt';
+    font-size: 3rem;
+    text-align: center;
+    padding: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    color: #69BD28;
+    font-weight: 900;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.product-header svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    margin-bottom: -100px;
+}
+
+.paginator_land {
+    display: grid;
+    place-items: center;
+    width: 100vw;
+    font-family: 'roboto';
+    font-size: 1.2rem;
+    color: #002244;
+}
+
+.paginator_land ul li {
+    color: #002244;
+    margin: 0 10px;
+}
